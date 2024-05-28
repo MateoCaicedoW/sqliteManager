@@ -12,7 +12,7 @@ type fileSystem struct {
 	iconURL string
 }
 
-func New(options ...option) *fileSystem {
+func New(options ...option) http.Handler {
 	f := &fileSystem{
 		mux: http.NewServeMux(),
 	}
