@@ -2,7 +2,6 @@ package connection
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -15,14 +14,8 @@ type service struct {
 	db *sqlx.DB
 }
 
-func New() Executer {
-	connFn := ConnectionFn(os.Getenv("DB_PATH"))
-	conn, err := connFn()
-	if err != nil {
-		panic(err)
-	}
-
-	return &service{db: conn}
+func New(db *sqlx.DB) Executer {
+	return &service{db: db}
 }
 
 func (s *service) Query(query string, args ...any) ([][]string, []string, error) {

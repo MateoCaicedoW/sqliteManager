@@ -9,12 +9,14 @@ import (
 	_ "github.com/MateoCaicedoW/sqliteManager/envload"
 	"github.com/MateoCaicedoW/sqliteManager/handlers"
 	"github.com/MateoCaicedoW/sqliteManager/render"
+	"github.com/jmoiron/sqlx"
 )
 
 type manager struct {
-	mux     *http.ServeMux
-	prefix  string
-	iconURL string
+	mux        *http.ServeMux
+	prefix     string
+	iconURL    string
+	connection *sqlx.DB
 }
 
 func New(options ...option) http.Handler {
@@ -27,7 +29,7 @@ func New(options ...option) http.Handler {
 	}
 
 	h := handlers.Handler{
-		Queryer: connection.New(),
+		Queryer: connection.New(f.connection),
 		Prefix:  f.prefix,
 	}
 

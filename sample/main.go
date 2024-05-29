@@ -12,6 +12,7 @@ func main() {
 
 	fs := manager.New(
 		manager.WithPrefix("/files"),
+		manager.WithConnection(nil),
 	)
 
 	s.Handle("/", fs)
