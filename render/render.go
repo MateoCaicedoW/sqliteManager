@@ -2,8 +2,14 @@ package render
 
 //this package is used to render the html templates
 import (
+	"embed"
 	"html/template"
-	"net/http"
+	"io"
+)
+
+var (
+	//go:embed *.html
+	templates embed.FS
 )
 
 var dataMap = make(map[string]any)
@@ -16,37 +22,18 @@ func GetData(key string) any {
 	return dataMap[key]
 }
 
-// this function is used to render the html templates
-func HTML(w http.ResponseWriter, tmpl string) {
-	// ParseFiles parses the named files and associates the resulting templates with t.
-	// If an error occurs, parsing stops and the returned template is nil;
-	// otherwise it is t. There must be at least one file.
-	t, err := template.ParseFiles("./" + tmpl)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+func RenderWithLayout(w io.Writer, partials ...string) error {
+	if len(partials) == 0 {
+		return nil
 	}
-	// Execute applies a parsed template to the specified data object,
-	// writing the output to wr.
-	err = t.Execute(w, dataMap)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
 
-func RenderWithLayout(w http.ResponseWriter, tmpl string, layout string) {
-	// ParseFiles parses the named files and associates the resulting templates with t.
-	// If an error occurs, parsing stops and the returned template is nil;
-	// otherwise it is t. There must be at least one file.
-	t, err := template.ParseFiles("./"+tmpl, "./layouts/"+layout)
+	tt := template.New(partials[0])
+
+	tt, err := tt.ParseFS(templates, partials...)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return err
 	}
-	// Execute applies a parsed template to the specified data object,
-	// writing the output to wr.
-	err = t.ExecuteTemplate(w, layout, dataMap)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+
+	return tt.Execute(w, dataMap)
+
 }

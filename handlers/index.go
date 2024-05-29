@@ -7,5 +7,7 @@ import (
 )
 
 func (h Handler) Index(w http.ResponseWriter, r *http.Request) {
-	render.RenderWithLayout(w, "handlers/files.html", "base.html")
+	if err := render.RenderWithLayout(w, "base.html", "files.html"); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
