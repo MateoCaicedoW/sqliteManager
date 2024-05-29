@@ -2,7 +2,7 @@
     <a href="{{.prefix}}/logout/" class="p-2 rounded-lg text-gray-500 hover:bg-red-400 border bg-white transition-all delay-50 hover:text-white" >Logout</a>
     <div class="py-2">
     <form hx-post="{{.prefix}}/" hx-swap="outerHTML" hx-trigger="submit" hx-target="#results" class="flex flex-col ">
-        <textarea name="query" id="" cols="30" rows="5" class="p-5 rounded-lg border focus:ring-0 resize-none" autofocus></textarea>
+        <textarea name="query" id="" cols="30" rows="5" class="p-5 rounded-lg border focus:ring-0" autofocus></textarea>
         <div class="flex justify-end pt-2">
             <button type="submit" class="p-2 rounded-lg text-gray-500 hover:bg-green-400 border bg-white transition-all delay-50 hover:text-white" >Run Query</button>
         </div>
