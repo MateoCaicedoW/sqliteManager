@@ -1,6 +1,7 @@
 package connection
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/jmoiron/sqlx"
@@ -23,6 +24,8 @@ func ConnectionFn(url string) ConnFn {
 			return conn, nil
 		}
 
+		fmt.Println("Connecting to database...")
+		fmt.Println("Database URL: ", url)
 		conn, err = sqlx.Connect("sqlite3", url)
 		if err != nil {
 			return nil, err
