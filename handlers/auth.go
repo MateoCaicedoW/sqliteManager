@@ -5,10 +5,11 @@ import (
 	"os"
 
 	"github.com/MateoCaicedoW/sqliteManager/render"
+	"github.com/MateoCaicedoW/sqliteManager/session"
 )
 
 func (h Handler) Login(w http.ResponseWriter, r *http.Request) {
-	user := render.GetData("user")
+	user := session.GetValue(r, "user")
 	if user != nil {
 		if err := render.Render(w, "base.html", "files.html"); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -44,14 +45,14 @@ func (h Handler) SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	render.SetData("user", user)
+	session.SetValue(w, r, "user", user)
 	if err := render.Render(w, "base.html", "files.html"); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
 func (h Handler) Logout(w http.ResponseWriter, r *http.Request) {
-	render.SetData("user", nil)
+	session.Clear(w, r)
 	render.SetData("error", nil)
 	if err := render.Render(w, "login.html"); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
