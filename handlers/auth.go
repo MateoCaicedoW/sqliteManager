@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 
@@ -10,7 +9,6 @@ import (
 
 func (h Handler) Login(w http.ResponseWriter, r *http.Request) {
 	user := render.GetData("user")
-	fmt.Println("user", user)
 	if user != nil {
 		if err := render.Render(w, "base.html", "files.html"); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -38,8 +36,6 @@ func (h Handler) SignIn(w http.ResponseWriter, r *http.Request) {
 	realUser := os.Getenv("MANAGER_USER")
 	realPassword := os.Getenv("MANAGER_PASSWORD")
 
-	fmt.Println("user", user, "password", password)
-	fmt.Println("realUser", realUser, "realPassword", realPassword)
 	if user != realUser || password != realPassword {
 		render.SetData("error", "User or password are incorrect")
 		if err := render.Render(w, "login.html"); err != nil {

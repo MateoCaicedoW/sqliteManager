@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/MateoCaicedoW/sqliteManager/render"
@@ -9,7 +8,6 @@ import (
 
 func (h Handler) Index(w http.ResponseWriter, r *http.Request) {
 	user := render.GetData("user")
-	fmt.Println("user", user)
 	if user == nil {
 		if err := render.Render(w, "login.html"); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
