@@ -16,7 +16,7 @@ type service struct {
 }
 
 func New() Executer {
-	connFn := ConnectionFn(fmt.Sprintf("./%s", os.Getenv("DB_PATH")))
+	connFn := ConnectionFn(os.Getenv("DB_PATH"))
 	conn, err := connFn()
 	if err != nil {
 		panic(err)
