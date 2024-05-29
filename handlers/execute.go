@@ -12,7 +12,7 @@ func (h Handler) Execute(w http.ResponseWriter, r *http.Request) {
 
 	if query == "" {
 		render.SetData("error", "Query cannot be empty")
-		if err := render.RenderWithLayout(w, "results.html"); err != nil {
+		if err := render.Render(w, "results.html"); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 		return
@@ -21,7 +21,7 @@ func (h Handler) Execute(w http.ResponseWriter, r *http.Request) {
 	all, c, err := h.Queryer.Query(query)
 	if err != nil {
 		render.SetData("error", err.Error())
-		if err := render.RenderWithLayout(w, "results.html"); err != nil {
+		if err := render.Render(w, "results.html"); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 		return
@@ -29,7 +29,7 @@ func (h Handler) Execute(w http.ResponseWriter, r *http.Request) {
 
 	render.SetData("results", all)
 	render.SetData("columns", c)
-	if err := render.RenderWithLayout(w, "results.html"); err != nil {
+	if err := render.Render(w, "results.html"); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

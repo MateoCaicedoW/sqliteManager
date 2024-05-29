@@ -22,7 +22,7 @@ func GetData(key string) any {
 	return dataMap[key]
 }
 
-func RenderWithLayout(w io.Writer, partials ...string) error {
+func Render(w io.Writer, partials ...string) error {
 	if len(partials) == 0 {
 		return nil
 	}

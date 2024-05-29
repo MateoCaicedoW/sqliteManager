@@ -5,5 +5,6 @@ import (
 )
 
 type Handler struct {
+	Prefix  string
 	Queryer connection.Executer
 }

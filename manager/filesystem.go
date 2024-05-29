@@ -8,6 +8,7 @@ import (
 	"github.com/MateoCaicedoW/sqliteManager/connection"
 	_ "github.com/MateoCaicedoW/sqliteManager/envload"
 	"github.com/MateoCaicedoW/sqliteManager/handlers"
+	"github.com/MateoCaicedoW/sqliteManager/render"
 )
 
 type manager struct {
@@ -27,8 +28,15 @@ func New(options ...option) http.Handler {
 
 	h := handlers.Handler{
 		Queryer: connection.New(),
+		Prefix:  f.prefix,
 	}
 
+	render.SetData("iconURL", f.iconURL)
+	render.SetData("prefix", f.prefix)
+
+	f.HandleFunc("GET /login/{$}", h.Login)
+	f.HandleFunc("POST /sign-in/{$}", h.SignIn)
+	f.HandleFunc("GET /logout/{$}", h.Logout)
 	f.HandleFunc("GET /{$}", h.Index)
 	f.HandleFunc("POST /{$}", h.Execute)
 
