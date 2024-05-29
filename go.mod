@@ -1,4 +1,4 @@
-module github.com/MateoCaicedoW/file_system
+module github.com/MateoCaicedoW/sqliteManager
 
 go 1.22.1
 

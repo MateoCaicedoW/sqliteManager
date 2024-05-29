@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/MateoCaicedoW/file_system/manager"
+	"github.com/MateoCaicedoW/sqliteManager/manager"
 )
 
 func main() {

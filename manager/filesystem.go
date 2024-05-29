@@ -5,9 +5,9 @@ import (
 	"path"
 	"strings"
 
-	"github.com/MateoCaicedoW/file_system/connection"
-	_ "github.com/MateoCaicedoW/file_system/envload"
-	"github.com/MateoCaicedoW/file_system/handlers"
+	"github.com/MateoCaicedoW/sqliteManager/connection"
+	_ "github.com/MateoCaicedoW/sqliteManager/envload"
+	"github.com/MateoCaicedoW/sqliteManager/handlers"
 )
 
 type manager struct {

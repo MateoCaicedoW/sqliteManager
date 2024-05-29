@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/MateoCaicedoW/file_system/connection"
+	"github.com/MateoCaicedoW/sqliteManager/connection"
 )
 
 type Handler struct {
