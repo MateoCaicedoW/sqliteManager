@@ -1,7 +1,11 @@
 package handlers
 
-import "net/http"
+import (
+	"net/http"
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello, World!"))
+	"github.com/MateoCaicedoW/file_system/render"
+)
+
+func (h Handler) Index(w http.ResponseWriter, r *http.Request) {
+	render.RenderWithLayout(w, "handlers/files.html", "base.html")
 }

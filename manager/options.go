@@ -1,15 +1,15 @@
-package filesystem
+package manager
 
-type option func(*fileSystem)
+type option func(*manager)
 
 func WithPrefix(prefix string) option {
-	return func(f *fileSystem) {
+	return func(f *manager) {
 		f.prefix = prefix
 	}
 }
 
 func WithIconURL(iconURL string) option {
-	return func(f *fileSystem) {
+	return func(f *manager) {
 		f.iconURL = iconURL
 	}
 }
