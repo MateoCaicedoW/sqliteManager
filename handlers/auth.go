@@ -52,6 +52,7 @@ func (h Handler) SignIn(w http.ResponseWriter, r *http.Request) {
 
 func (h Handler) Logout(w http.ResponseWriter, r *http.Request) {
 	render.SetData("user", nil)
+	render.SetData("error", nil)
 	if err := render.Render(w, "login.html"); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
