@@ -19,6 +19,9 @@ func main() {
 
 	fs := manager.New(
 		manager.WithPrefix("/files"),
+		// manager.WithConnection(db),
+
+		//Remove this line
 		manager.WithConnection(nil),
 	)
 
