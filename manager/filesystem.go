@@ -36,9 +36,8 @@ func New(options ...option) http.Handler {
 	render.SetData("iconURL", f.iconURL)
 	render.SetData("prefix", f.prefix)
 
-	f.HandleFunc("GET /login/{$}", h.Login)
 	f.HandleFunc("POST /sign-in/{$}", h.SignIn)
-	f.HandleFunc("GET /logout/{$}", h.Logout)
+	f.HandleFunc("DELETE /logout/{$}", h.Logout)
 	f.HandleFunc("GET /{$}", h.Index)
 	f.HandleFunc("POST /{$}", h.Execute)
 

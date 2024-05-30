@@ -19,10 +19,13 @@ func New(db *sqlx.DB) Executer {
 }
 
 func (s *service) Query(query string, args ...any) ([][]string, []string, error) {
-	results, err := s.db.Query(query)
+
+	results, err := s.db.Query(query, args...)
 	if err != nil {
 		return nil, nil, err
 	}
+
+	defer results.Close()
 
 	c, err := results.Columns()
 	if err != nil {

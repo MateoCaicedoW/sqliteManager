@@ -10,6 +10,13 @@ import (
 func main() {
 	s := http.NewServeMux()
 
+	//You should open the connection to the database before creating the manager
+	// db, err := sqlx.Open("sqlite3", "database.db")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	os.Exit(1)
+	// }
+
 	fs := manager.New(
 		manager.WithPrefix("/files"),
 		manager.WithConnection(nil),
