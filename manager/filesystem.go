@@ -40,6 +40,10 @@ func New(options ...option) http.Handler {
 	f.HandleFunc("DELETE /logout/{$}", h.Logout)
 	f.HandleFunc("GET /{$}", h.Index)
 	f.HandleFunc("POST /{$}", h.Execute)
+	f.HandleFunc("POST /show-tables/{$}", h.ShowTables)
+	f.HandleFunc("POST /details/{$}", h.SelectTable)
+	f.HandleFunc("POST /columns/{$}", h.GetColumns)
+	f.HandleFunc("DELETE /clear-columns/{$}", h.ClearColumns)
 
 	return f
 }

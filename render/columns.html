@@ -1,0 +1,31 @@
+{{ if .empty}}
+    <div id="columns"></div>
+{{ else}}
+    <div class="p-5 bg-white border rounded-lg flex flex-col gap-1" id="columns">
+        <div class="flex w-full items-center justify-between">
+            <span class="text-lg font-bold">
+                {{.table}}
+            </span>
+
+            <button type="button" hx-delete="{{.prefix}}/clear-columns/" hx-trigger="click" hx-target="#columns" hx-swap="outerHTML">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <div>
+            <div class="grid grid-cols-2">
+                <span class="font-bold text-sm uppercase">Name</span>
+                <span class="font-bold text-sm uppercase">Type</span>
+            </div>
+        
+            <div class="grid grid-cols-2">
+                {{ range .columns }}
+                    <span class="font-light text-sm">{{.Name}}</span>
+                    <span class="font-light text-sm">{{.Type}}</span>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+{{end}}

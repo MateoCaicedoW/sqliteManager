@@ -33,3 +33,57 @@ func (h Handler) Execute(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
+
+func (h Handler) ShowTables(w http.ResponseWriter, r *http.Request) {
+	all, c, err := h.Queryer.ShowTables()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	render.SetData("results", all)
+	render.SetData("columns", c)
+	if err := render.Render(w, "tables.html"); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+}
+
+func (h Handler) SelectTable(w http.ResponseWriter, r *http.Request) {
+	table := r.URL.Query().Get("table")
+	all, c, err := h.Queryer.SelectTable(table)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	render.SetData("results", all)
+	render.SetData("columns", c)
+	if err := render.Render(w, "results.html"); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func (h Handler) GetColumns(w http.ResponseWriter, r *http.Request) {
+	table := r.URL.Query().Get("table")
+	columns, err := h.Queryer.GetColumns(table)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	render.SetData("table", table)
+	render.SetData("columns", columns)
+	render.SetData("empty", false)
+	if err := render.Render(w, "columns.html"); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func (h Handler) ClearColumns(w http.ResponseWriter, r *http.Request) {
+	render.SetData("table", "")
+	render.SetData("empty", true)
+	if err := render.Render(w, "columns.html"); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}

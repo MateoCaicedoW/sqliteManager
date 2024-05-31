@@ -5,13 +5,15 @@ import (
 	"net/http"
 
 	"github.com/MateoCaicedoW/sqliteManager/manager"
+	// remove this line
+	// _ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
 	s := http.NewServeMux()
 
-	//You should open the connection to the database before creating the manager
-	// db, err := sqlx.Open("sqlite3", os.Getenv("DATABASE_URL")
+	// You should open the connection to the database before creating the manager
+	// db, err := sqlx.Open("sqlite3", os.Getenv("DATABASE_URL"))
 	// if err != nil {
 	// 	fmt.Println(err)
 	// 	os.Exit(1)

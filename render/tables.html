@@ -1,0 +1,23 @@
+<div class="flex flex-col gap-1 pt-2" >
+    {{ $pre := .prefix }}
+
+    {{ range .results}}
+        {{ range .}}
+            <span class="flex justify-between items-center">                   
+                <a class="text-sm flex items-center  gap-2 hover:text-gray-500 cursor-pointer" hx-post="{{$pre}}/details/?table={{.}}" hx-target="#results" hx-trigger="click" hx-swap="outerHTML">
+                    <span class="flex items-center gap-2">
+                        <svg height="15" viewBox="0 0 1792 1792" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M576 1376v-192q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v192q0 14 9 23t23 9h320q14 0 23-9t9-23zm0-384v-192q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v192q0 14 9 23t23 9h320q14 0 23-9t9-23zm512 384v-192q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v192q0 14 9 23t23 9h320q14 0 23-9t9-23zm-512-768v-192q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v192q0 14 9 23t23 9h320q14 0 23-9t9-23zm512 384v-192q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v192q0 14 9 23t23 9h320q14 0 23-9t9-23zm512 384v-192q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v192q0 14 9 23t23 9h320q14 0 23-9t9-23zm-512-768v-192q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v192q0 14 9 23t23 9h320q14 0 23-9t9-23zm512 384v-192q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v192q0 14 9 23t23 9h320q14 0 23-9t9-23zm0-384v-192q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v192q0 14 9 23t23 9h320q14 0 23-9t9-23zm128-320v1088q0 66-47 113t-113 47h-1344q-66 0-113-47t-47-113v-1088q0-66 47-113t113-47h1344q66 0 113 47t47 113z"/>
+                        </svg>
+                        {{.}}
+                    </span>
+                </a>
+
+                <button class="rounded-lg hover:bg-gray-100 border" hx-post="{{$pre}}/columns/?table={{.}}" hx-target="#columns" hx-trigger="click" hx-swap="outerHTML">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M5 7.5L10 12.5L15 7.5" stroke="#101828" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+            </span>
+        {{ end }}
+    {{ end }}
+</div>
