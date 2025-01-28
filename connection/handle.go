@@ -62,7 +62,7 @@ func (s *service) Query(query string, args ...any) ([][]string, []string, error)
 		// Copy the data from the interface{} slice to
 		// the string slice.
 		for i := range c {
-			row[i] = fmt.Sprintf("%s", values[i])
+			row[i] = fmt.Sprintf("%v", values[i])
 		}
 
 		// Store the row in a slice of rows.
