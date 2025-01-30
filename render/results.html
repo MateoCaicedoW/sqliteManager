@@ -1,37 +1,30 @@
-
-<div id="results"  class=" p-5 bg-white border rounded-lg">
-  <div class="p-0 overflow-x-scroll rounded-lg border">
-      {{if .error}}
-      <div class="bg-red-500 text-white p-2 rounded-md">
-          {{.error}}
-      </div>
-
-      {{else}}
-        <div class="table table-fixed w-full rounded-lg ">
-          <table class="divide-y divide-navy-200  rounded-lg">
-            <thead class="bg-navy-50  font-semibold text-navy-950 tracking-wider">
-              <tr>
-                {{ range .columns}}
-                    <th scope="col" class="relative px-6 py-3 text-left  border-r border-navy-200 text-sm bg-gray-100">
-                        {{.}}
-                    </th>
-                {{ end }}
-              </tr>
-            </thead>
-            <tbody class="bg-white rounded-lg divide-y">
-                {{ range .results}}
-                    <tr class="odd:bg-white even:bg-gray-50">
-                        {{ range .}}
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500  border-r border-navy-200 w-[1%] last:w-auto">
-                                <span>{{.}}</span>
-                            </td>
-                        {{ end }}
-                    </tr>
-                {{ end }}
-            </tbody>
-          </table>
-        </div>
-    {{end }}
-  </div>
+<div id="results" class="relative overflow-x-auto">
+	{{if .error}}
+    	<div class="bg-red-500 text-white p-2 rounded-md">
+        	{{.error}}
+      	</div>
+    {{else}}
+		<table class="min-w-full table-auto text-sm text-left rtl:text-right text-gray-500">
+			<thead class="text-xs text-gray-700 bg-gray-50">
+				<tr>
+					{{ range .columns}}
+						<th scope="col" class="px-6 py-3 whitespace-nowrap">
+							{{.}}
+						</th>
+					{{ end }}
+				</tr>
+			</thead>
+			<tbody>
+				{{ range .results}}
+					<tr class="bg-white border-b border-gray-200">
+						{{ range .}}
+							<td class="px-6 py-4 whitespace-nowrap">
+								{{.}}
+							</td>
+						{{ end }}
+					</tr>
+				{{ end }}
+			</tbody>
+		</table>
+	{{end}}
 </div>
-
