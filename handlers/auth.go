@@ -31,7 +31,7 @@ func (h Handler) SignIn(w http.ResponseWriter, r *http.Request) {
 	realPassword := os.Getenv("MANAGER_PASSWORD")
 
 	if user != realUser || password != realPassword {
-		render.SetData("error", "User or password are incorrect")
+		render.SetData("error", "The Username or Password is incorrect.")
 		if err := render.Render(w, "login.html"); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
