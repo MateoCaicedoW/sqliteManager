@@ -1,31 +1,26 @@
-{{ if .empty}}
-    <div id="columns"></div>
-{{ else}}
-    <div class="p-5 bg-white border rounded-lg flex flex-col gap-1" id="columns">
-        <div class="flex w-full items-center justify-between">
-            <span class="text-lg font-bold">
-                {{.table}}
-            </span>
-
-            <button type="button" hx-delete="{{.prefix}}/clear-columns/" hx-trigger="click" hx-target="#columns" hx-swap="outerHTML">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M18 6L6 18M6 6L18 18" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-            </button>
-        </div>
-        
-        <div>
-            <div class="grid grid-cols-2">
-                <span class="font-bold text-sm uppercase">Name</span>
-                <span class="font-bold text-sm uppercase">Type</span>
-            </div>
-        
-            <div class="grid grid-cols-2">
+{{ if .empty }}
+    <aside id="columns"></aside>
+{{ else }}
+    <aside id="columns" class="shrink-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
+            <h2 class="font-semibold text-gray-400 mb-3 flex justify-between items-center">
+                {{ .table }}
+                <span _="on click add .hidden to #columns">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 cursor-pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>                                     
+                </span>
+            </h2>
+            <ul class="space-y-2 font-medium">
                 {{ range .columns }}
-                    <span class="font-light text-sm">{{.Name}}</span>
-                    <span class="font-light text-sm">{{.Type}}</span>
+                    <li class="m-0">
+                        <a class="flex items-center p-1 pl-0 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                            <p class="flex justify-bween items-center w-full">{{.Name}} <span class="text-gray-400 ml-2 text-sm lowercase">{{.Type}}</span></p>
+                        </a>
+                    </li>
                 {{ end }}
-            </div>
+            </ul>
         </div>
-    </div>
-{{end}}
+    </aside>
+{{ end }}
+
