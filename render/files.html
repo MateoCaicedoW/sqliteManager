@@ -41,13 +41,13 @@
             <div class="flex justify-end pt-2 mb-4">
                 <button type="button"
                     class="cursor-pointer text-sm inline-flex items-center py-2.5 px-4 font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800"
-                    hx-post="{{.prefix}}/" hx-include="[name='query']" hx-swap="outerHTML" hx-trigger="click"
-                    hx-target="#results">Run Query</button>
+                    hx-post="{{.prefix}}/" hx-swap="outerHTML" hx-trigger="click" hx-target="#results"
+                    hx-vals="js:{ query: window.editor.getValue() }">Run Query</button>
             </div>
 
-            <div name="query" id="monaco-editor" rows="8"
-                class="w-full p-5 font-mono border border-gray-200 rounded-lg bg-gray-50 text-gray-900 bg-white focus:ring-0 min-h-[300px]"
-                autofocus></div>
+            <div id="monaco-editor"
+                class="w-full p-5 font-mono border border-gray-200 rounded-lg bg-gray-50 text-gray-900 bg-white focus:ring-0 min-h-[300px]">
+            </div>
 
             <div id="results"></div>
         </div>
@@ -81,7 +81,7 @@
 
                 monaco.editor.setTheme('custom-theme');
 
-                var editor = monaco.editor.create(document.getElementById('monaco-editor'), {
+                window.editor = monaco.editor.create(document.getElementById('monaco-editor'), {
                     language: 'sql',
                     theme: 'custom-theme',
                     automaticLayout: true,
