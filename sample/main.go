@@ -7,12 +7,11 @@ import (
 	"os"
 
 	// remove this line
-	"github.com/MateoCaicedoW/sqliteManager/internal/manager"
+	"github.com/MateoCaicedoW/sqliteManager/manager"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
-	s := http.NewServeMux()
 
 	// You should open the connection to the database before creating the manager
 	db, err := sql.Open("sqlite3", os.Getenv("DATABASE_URL"))
@@ -23,13 +22,13 @@ func main() {
 
 	fs := manager.New(
 		manager.WithConnection(db),
-		manager.WithPrefix("/files"),
+		manager.WithPrefix("/database"),
 	)
 
-	s.Handle("/", fs)
+	http.Handle("/database", fs)
 
 	fmt.Println("Server running on port 3000")
-	err = http.ListenAndServe(":3000", s)
+	err = http.ListenAndServe(":3000", nil)
 	if err != nil {
 		fmt.Println(err)
 	}
