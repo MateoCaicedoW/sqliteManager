@@ -66,10 +66,27 @@
             });
 
             require(['vs/editor/editor.main'], function () {
+
+                monaco.editor.defineTheme('custom-theme', {
+                    base: 'vs',
+                    inherit: true,
+                    rules: [
+                        { token: 'keyword.sql', foreground: '#1447e6', fontStyle: 'bold' },
+                        { token: 'identifier.sql', foreground: '#101828' },
+                    ], colors: {
+                        'editor.background': '#FFFFFF',
+                        'editor.foreground': '#101828',
+                    }
+                });
+
+                monaco.editor.setTheme('custom-theme');
+
                 var editor = monaco.editor.create(document.getElementById('monaco-editor'), {
-                    'language': 'sql',
-                    'theme': 'vs-light',
-                    'automaticLayout': true
+                    language: 'sql',
+                    theme: 'custom-theme',
+                    automaticLayout: true,
+                    fontFamily: `"ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace`,
+                    fontSize: 14
                 });
             });
         }
