@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/MateoCaicedoW/sqliteManager/render"
+	"github.com/MateoCaicedoW/sqliteManager/internal/system/render"
 )
 
 func (h Handler) Login(w http.ResponseWriter, r *http.Request) {

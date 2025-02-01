@@ -1,9 +1,10 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
-	"github.com/MateoCaicedoW/sqliteManager/render"
+	"github.com/MateoCaicedoW/sqliteManager/internal/system/render"
 )
 
 func (h Handler) Execute(w http.ResponseWriter, r *http.Request) {
@@ -29,6 +30,7 @@ func (h Handler) Execute(w http.ResponseWriter, r *http.Request) {
 
 	render.SetData("results", all)
 	render.SetData("columns", c)
+	render.SetData("error", nil)
 	if err := render.Render(w, "results.html"); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -37,12 +39,14 @@ func (h Handler) Execute(w http.ResponseWriter, r *http.Request) {
 func (h Handler) ShowTables(w http.ResponseWriter, r *http.Request) {
 	all, c, err := h.Queryer.ShowTables()
 	if err != nil {
+		render.SetData("error", err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	render.SetData("results", all)
 	render.SetData("columns", c)
+	render.SetData("error", nil)
 	if err := render.Render(w, "tables.html"); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -53,12 +57,16 @@ func (h Handler) SelectTable(w http.ResponseWriter, r *http.Request) {
 	table := r.URL.Query().Get("table")
 	all, c, err := h.Queryer.SelectTable(table)
 	if err != nil {
+		render.SetData("error", err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	fmt.Println("all", all)
+
 	render.SetData("results", all)
 	render.SetData("columns", c)
+	render.SetData("error", nil)
 	if err := render.Render(w, "results.html"); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -68,6 +76,7 @@ func (h Handler) GetColumns(w http.ResponseWriter, r *http.Request) {
 	table := r.URL.Query().Get("table")
 	columns, err := h.Queryer.GetColumns(table)
 	if err != nil {
+		render.SetData("error", err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -75,6 +84,7 @@ func (h Handler) GetColumns(w http.ResponseWriter, r *http.Request) {
 	render.SetData("table", table)
 	render.SetData("columns", columns)
 	render.SetData("empty", false)
+	render.SetData("error", nil)
 	if err := render.Render(w, "columns.html"); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

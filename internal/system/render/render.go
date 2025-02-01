@@ -2,14 +2,10 @@ package render
 
 //this package is used to render the html templates
 import (
-	"embed"
 	"html/template"
 	"io"
-)
 
-var (
-	//go:embed *.html
-	templates embed.FS
+	"github.com/MateoCaicedoW/sqliteManager/internal/system/templates"
 )
 
 var dataMap = make(map[string]any)
@@ -29,7 +25,7 @@ func Render(w io.Writer, partials ...string) error {
 
 	tt := template.New(partials[0])
 
-	tt, err := tt.ParseFS(templates, partials...)
+	tt, err := tt.ParseFS(templates.Templates, partials...)
 	if err != nil {
 		return err
 	}

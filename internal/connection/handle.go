@@ -1,9 +1,8 @@
 package connection
 
 import (
+	"database/sql"
 	"fmt"
-
-	"github.com/jmoiron/sqlx"
 )
 
 type Column struct {
@@ -19,20 +18,19 @@ type Executer interface {
 }
 
 type service struct {
-	db *sqlx.DB
+	db *sql.DB
 }
 
-func New(db *sqlx.DB) Executer {
+// New accepts a standard *sql.DB instead of creating a sqlx.DB
+func New(db *sql.DB) Executer {
 	return &service{db: db}
 }
 
 func (s *service) Query(query string, args ...any) ([][]string, []string, error) {
-
 	results, err := s.db.Query(query, args...)
 	if err != nil {
 		return nil, nil, err
 	}
-
 	defer results.Close()
 
 	c, err := results.Columns()
@@ -40,34 +38,24 @@ func (s *service) Query(query string, args ...any) ([][]string, []string, error)
 		return nil, nil, err
 	}
 
-	// //Create a slice of interface{} to represent each column of data.
 	values := make([]interface{}, len(c))
-
-	// Create a slice of interface{} to represent each column of data.
 	valuePtrs := make([]interface{}, len(c))
 
 	all := [][]string{}
 
 	for results.Next() {
-		// // Scan each row into the interface{} slice.
 		for i := range c {
 			valuePtrs[i] = &values[i]
 		}
 
 		results.Scan(valuePtrs...)
 
-		// Create a slice to hold the data of each row.
 		row := make([]string, len(c))
-
-		// Copy the data from the interface{} slice to
-		// the string slice.
 		for i := range c {
 			row[i] = fmt.Sprintf("%v", values[i])
 		}
 
-		// Store the row in a slice of rows.
 		all = append(all, row)
-
 	}
 
 	return all, c, nil
@@ -82,7 +70,6 @@ func (s *service) SelectTable(table string) ([][]string, []string, error) {
 }
 
 func (s *service) GetColumns(table string) ([]Column, error) {
-
 	var columns []Column
 	all, _, err := s.Query(fmt.Sprintf("PRAGMA table_info(%s);", table))
 	if err != nil {
