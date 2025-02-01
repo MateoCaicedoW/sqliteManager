@@ -2,10 +2,9 @@ package manager
 
 import (
 	"database/sql"
+	"fmt"
 	"log/slog"
 	"net/http"
-	"path"
-	"strings"
 	"time"
 
 	"github.com/MateoCaicedoW/sqliteManager/internal/connection"
@@ -38,16 +37,30 @@ func New(options ...option) http.Handler {
 	render.SetData("iconURL", f.iconURL)
 	render.SetData("prefix", f.prefix)
 
-	f.HandleFunc("POST /sign-in/{$}", h.SignIn)
-	f.HandleFunc("DELETE /logout/{$}", h.Logout)
-	f.HandleFunc("GET /{$}", h.Index)
-	f.HandleFunc("POST /{$}", h.Execute)
-	f.HandleFunc("POST /show-tables/{$}", h.ShowTables)
-	f.HandleFunc("POST /details/{$}", h.SelectTable)
-	f.HandleFunc("POST /columns/{$}", h.GetColumns)
-	f.HandleFunc("DELETE /clear-columns/{$}", h.ClearColumns)
+	f.register(
+		route{method: "POST", pattern: "/sign-in/{$}", handler: h.SignIn},
+		route{method: "DELETE", pattern: "/logout/{$}", handler: h.Logout},
+		route{method: "GET", pattern: "/{$}", handler: h.Index},
+		route{method: "POST", pattern: "/{$}", handler: h.Execute},
+		route{method: "POST", pattern: "/show-tables/{$}", handler: h.ShowTables},
+		route{method: "POST", pattern: "/details/{$}", handler: h.SelectTable},
+		route{method: "POST", pattern: "/columns/{$}", handler: h.GetColumns},
+		route{method: "DELETE", pattern: "/clear-columns/{$}", handler: h.ClearColumns},
+	)
 
-	return f
+	return f.mux
+}
+
+type route struct {
+	method  string
+	pattern string
+	handler func(http.ResponseWriter, *http.Request)
+}
+
+func (m *manager) register(routes ...route) {
+	for _, r := range routes {
+		m.mux.HandleFunc(fmt.Sprintf("%s %s%s", r.method, m.prefix, r.pattern), r.handler)
+	}
 }
 
 func (f *manager) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -68,24 +81,4 @@ func (f *manager) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	f.mux.ServeHTTP(w, r)
 	slog.Info(">", "method", r.Method, "path", r.URL.Path, "duration", time.Since(t))
-}
-
-// normalizePattern ensures the pattern correctly includes the prefix
-func (m *manager) normalizePattern(pattern string) string {
-	parts := strings.SplitN(pattern, " ", 2) // Ensure at most 2 parts
-
-	if len(parts) == 2 {
-		// If the pattern includes a method (e.g., "GET /path")
-		return parts[0] + " " + path.Join("/", m.prefix, parts[1])
-	}
-	return path.Join("/", m.prefix, parts[0])
-}
-
-func (m *manager) HandleFunc(pattern string, handler http.HandlerFunc) {
-	// fmt.Println(m.normalizePattern(pattern), handler)
-	m.mux.HandleFunc(m.normalizePattern(pattern), handler)
-}
-
-func (m *manager) Handle(pattern string, handler http.Handler) {
-	m.mux.Handle(m.normalizePattern(pattern), handler)
 }

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/MateoCaicedoW/sqliteManager/internal/system/render"
@@ -61,8 +60,6 @@ func (h Handler) SelectTable(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	fmt.Println("all", all)
 
 	render.SetData("results", all)
 	render.SetData("columns", c)
