@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/MateoCaicedoW/sqliteManager/render"
+	"github.com/MateoCaicedoW/sqliteManager/internal/system/render"
 )
 
 func (h Handler) Index(w http.ResponseWriter, r *http.Request) {

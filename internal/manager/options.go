@@ -1,6 +1,6 @@
 package manager
 
-import "github.com/jmoiron/sqlx"
+import "database/sql"
 
 type option func(*manager)
 
@@ -16,8 +16,8 @@ func WithIconURL(iconURL string) option {
 	}
 }
 
-func WithConnection(connection *sqlx.DB) option {
+func WithConnection(connection *sql.DB) option {
 	return func(f *manager) {
-		f.connection = connection
+		f.db = connection
 	}
 }
